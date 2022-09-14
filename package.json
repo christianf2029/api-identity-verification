@@ -1,0 +1,13 @@
+{
+  "name": "api-identity-verification",
+  "version": "0.0.1",
+  "description": "Project for identity verification",
+  "author": "Christian Teixeira <christianf2029@outlook.com>",
+  "main": "server.js",
+  "scripts": {
+    "start": "npm install && node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
