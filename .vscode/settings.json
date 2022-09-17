@@ -1,5 +1,9 @@
 {
   "editor.tabSize": 2,
   "editor.tabCompletion": "on",
-  "files.insertFinalNewline": true
+  "files.insertFinalNewline": true,
+  "files.exclude": {
+    ".git": true,
+    "node_modules/**": true
+  }
 }
