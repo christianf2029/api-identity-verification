@@ -1,9 +1,16 @@
 {
   "editor.tabSize": 2,
   "editor.tabCompletion": "on",
+  "editor.autoClosingQuotes": "always",
+  "editor.formatOnSave": true,
+  "prettier.endOfLine": "lf",
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "files.exclude": {
     ".git": true,
+    "dist": true,
     "node_modules/**": true
   }
 }
