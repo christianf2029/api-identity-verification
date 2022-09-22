@@ -1,8 +1,10 @@
+import bodyParser from 'body-parser';
 import express from 'express';
 import { Logger } from 'pino';
 
 export type AppContainer = {
   resolve: {
+    bodyParser: typeof bodyParser,
     express: typeof express,
     logger: Logger
   },
@@ -12,6 +14,7 @@ export type AppContainer = {
 export default {
   load: (): AppContainer => {
     const dependencies: any = {
+      bodyParser: bodyParser,
       express: express
     };
 

@@ -1,17 +1,18 @@
-import { AppContainer } from "../../register";
+import { AppContainer } from '../register';
+import routes from './routes';
 
 export default {
   start: async (container: AppContainer): Promise<void> => {
     const express = container.resolve['express'];
+    const bodyParser = container.resolve['bodyParser'];
     const logger = container.resolve['logger'];
 
     const server = express();
 
-    server.get('/*', (req, res) => {
-      logger.debug('New request was received');
+    server.use(bodyParser.json());
+    server.use(bodyParser.urlencoded({ extended: false }))
 
-      res.send('Hello Word!').status(200);
-    });
+    routes(server, container);
 
     await new Promise((resolve) => {
       server.listen(8080, () => {
