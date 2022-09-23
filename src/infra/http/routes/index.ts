@@ -1,9 +1,11 @@
-import { AppContainer } from "../../register";
 import { Express, Request, Response } from 'express';
-import charges from "./charges";
+import { AppContainer } from '../../register';
+import charges from './charges';
+import webhook from './webhook';
 
 export default (server: Express, container: AppContainer) => {
   charges(server, container);
+  webhook(server, container);
 
   server.use('*', (req: Request, res: Response) => {
     container

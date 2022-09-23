@@ -1,5 +1,5 @@
-import { AppContainer } from "../../register";
 import { Express, Request, Response } from 'express';
+import { AppContainer } from '../../register';
 
 export default (server: Express, container: AppContainer) => {
 
@@ -10,9 +10,17 @@ export default (server: Express, container: AppContainer) => {
 
     res
       .status(201)
-      .json({
-        id: 1
-      });
+      .json({ id: 1 });
+  });
+
+  server.get('/charges/:id/status', (req: Request, res: Response) => {
+    container
+      .resolve['logger']
+      .info('Getting the charge');
+
+    res
+      .status(200)
+      .json({ id: 1, status: 'active' });
   });
 
 }
