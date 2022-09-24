@@ -7,16 +7,12 @@ export default (server: Express, container: AppContainer) => {
   charges(server, container);
   webhook(server, container);
 
-  server.use('*', (req: Request, res: Response) => {
-    container
-      .resolve['logger']
-      .warn('New request was received');
+  server.all('*', (req: Request, res: Response) => {
+    container.resolve['logger'].warn('New request was received');
 
-    res
-      .status(404)
-      .json({
-        error: 'not_found',
-        message: 'Not found'
-      });
+    res.status(404).json({
+      error: 'not_found',
+      message: 'Not found',
+    });
   });
-}
+};

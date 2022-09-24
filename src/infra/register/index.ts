@@ -1,15 +1,17 @@
 import bodyParser from 'body-parser';
 import express from 'express';
-import { Logger } from 'pino';
+import { Settings } from '../settings';
+import { Logger } from '../tools/logger';
 
 export type AppContainer = {
   resolve: {
     bodyParser: typeof bodyParser,
     express: typeof express,
-    logger: Logger
+    logger: Logger,
+    settings: Settings
   },
   add: (d: any) => void
-}
+};
 
 export default {
   load: (): AppContainer => {
@@ -20,11 +22,11 @@ export default {
 
     return {
       resolve: dependencies,
-      add: (news: { [k: string]: any }) => {
+      add: (news: { [k: string]: any; }) => {
         Object.entries(news).forEach(([k, dependency]) => {
-          dependencies[k] = dependency
+          dependencies[k] = dependency;
         });
       }
-    }
-  }
+    };
+  },
 };

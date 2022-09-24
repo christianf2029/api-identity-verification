@@ -3,15 +3,14 @@
   "editor.tabCompletion": "on",
   "editor.autoClosingQuotes": "always",
   "editor.formatOnSave": true,
-  "prettier.endOfLine": "lf",
-  "prettier.singleQuote": true,
-  "prettier.trailingComma": "es5",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.enable": true,
   "files.eol": "\n",
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "files.exclude": {
     ".git": true,
-    "dist": true,
+    "dist": false,
     "node_modules/**": true
   }
 }

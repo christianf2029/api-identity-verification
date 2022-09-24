@@ -4,14 +4,32 @@ services:
   web:
     build: .
     volumes:
-        - "./:/usr/src/app"
+      - "./:/usr/src/app"
     command: "npm start"
     ports:
       - 8080:8080
 
   localstack:
     image: localstack/localstack
+    container_name: localstack
     ports:
-      - 4576:4576
+      - 4566:4566
     environment:
       - SERVICES=sqs
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=na
+      - AWS_SECRET_ACCESS_KEY=na
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    command: redis-server
+    ports:
+      - 6379:6379
+
+  proxy:
+    image: "nginx:latest"
+    ports:
+      - 8000:80
+    volumes:
+      - ./src:/usr/share/nginx/html

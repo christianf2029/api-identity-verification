@@ -1,0 +1,19 @@
+{
+  "aws": {
+    "region": "us-east-1",
+    "credentials": {
+      "accessKeyId": "na",
+      "secretAccessKey": "na"
+    }
+  },
+  "httpServer": {
+    "port": 8080
+  },
+  "sqsPoller": {
+    "endpoint": "http://localstack:4566",
+    "queue": {
+      "name": "api_identity_verification",
+      "url": "http://localstack:4566/000000000000/api_identity_verification"
+    }
+  }
+}
