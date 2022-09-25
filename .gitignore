@@ -38,5 +38,4 @@ typings/
 # Project build / generate output
 dist
 
-# Gatsby files
-.cache/
+src/infra/settings/api-pix

@@ -1,4 +1,6 @@
+import https from 'https';
 import settings from './settings.json';
+import apiPixCredentials from './api-pix/credentials.json';
 
 export type Settings = {
   aws: {
@@ -17,11 +19,34 @@ export type Settings = {
       name: string,
       url: string
     }
+  },
+  apiPix: {
+    url: string,
+    credentials: {
+      clientId: string,
+      clientSecret: string
+    },
+    httpsAgent: https.Agent
   }
 };
 
 export default {
   load: (): Settings => {
-    return settings;
+    return {
+      ...settings,
+      apiPix: {
+        url: apiPixCredentials.url,
+        credentials: {
+          clientId: apiPixCredentials.credentials.clientId,
+          clientSecret: apiPixCredentials.credentials.clientSecret,
+        },
+        httpsAgent: new https.Agent({
+          cert: apiPixCredentials.cert.pub,
+          key: apiPixCredentials.cert.priv,
+          keepAlive: true,
+          rejectUnauthorized: false
+        })
+      }
+    };
   }
 };
