@@ -1,0 +1,131 @@
+openapi: 3.0.0
+
+info:
+  title: API Identity Verification
+  version: 1.0.0
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
+  contact:
+    name: Christian Teixeira
+    email: christianf2029@outlook.com
+  description: |-
+    This project proposes an API to facilitate the verification of people's identity, using Pix.
+
+servers:
+  - url: http://localhost:8080
+    description: Server address in development environment
+
+paths:
+  /charges/new:
+    get:
+      summary: Returns a new charge.
+      description: This request asks the server for a new charge, which generates and returns it.
+      tags:
+        - "Cobranças"
+      security:
+        - OAuth2: [charges]
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token to authorize the request.
+          required: true
+          schema:
+            type: string
+            example: Bearer KZKk5UpopJZVKZKj5R8QmVN1ROKqaKNyomlaliUp
+      responses:
+        "201":
+          description: The new charge created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    minLength: 26
+                    maxLength: 35
+                    example: 055ac869f5da4a36bbfc2c71579d3fd8
+                  status:
+                    type: string
+                    enum:
+                      - active
+                      - finished
+                      - expired
+                      - removed
+                  qrcodeImage:
+                    type: string
+                    example: "data:image/png;base64,iVBORw0KGgoAANSUhEUgAOQCAY ... jYe11jX+D2cPyxHnmjWAAAAAAElFTkSuQmCC"
+                  expiration:
+                    type: integer
+                    minimum: 1
+                  createdAt:
+                    type: string
+                    format: date-time
+
+  /charges/:id/status:
+    get:
+      summary: Returns the current charge status.
+      description: This request asks the server for the current charge status.
+      tags:
+        - "Cobranças"
+      security:
+        - OAuth2: [charges]
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token to authorize the request.
+          required: true
+          schema:
+            type: string
+            example: Bearer KZKk5UpopJZVKZKj5R8QmVN1ROKqaKNyomlaliUp
+      responses:
+        "200":
+          description: The current charge status.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    minLength: 26
+                    maxLength: 35
+                    example: 055ac869f5da4a36bbfc2c71579d3fd8
+                  status:
+                    type: string
+                    enum:
+                      - active
+                      - finished
+                      - expired
+                      - removed
+        "400":
+          description: "Requisição com o id de cobrança em formato inválido."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    enum:
+                      - incorrect_input
+                  message:
+                    type: string
+                    enum:
+                      - Id de cobrança em formato inválido
+        "404":
+          description: "Requisição com id de cobrança inexistente."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    enum:
+                      - charge_not_found
+                  message:
+                    type: string
+                    enum:
+                      - Cobrança não encontrada para o id informado
