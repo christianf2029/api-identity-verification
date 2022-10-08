@@ -1,12 +1,12 @@
 import pino, { Logger as PinoLogger } from 'pino';
 import pinopretty from 'pino-pretty';
 
-export type Logger = {
+export interface Logger {
   debug(msg: string, data?: any): void,
   info(msg: string, data?: any): void,
   warn(msg: string, data?: any): void,
   error(msg: string, data?: any): void
-};
+}
 
 class LoggerWrapper implements Logger {
   private _logger: PinoLogger;
@@ -40,5 +40,5 @@ class LoggerWrapper implements Logger {
 export default {
   load: (): Logger => {
     return new LoggerWrapper();
-  },
+  }
 };
