@@ -4,7 +4,7 @@ import charges from './charges';
 import webhook from './webhook';
 
 export default (server: Express, container: AppContainer) => {
-  charges(server, container);
+  charges(server);
   webhook(server, container);
 
   server.all('*', (req: Request, res: Response) => {

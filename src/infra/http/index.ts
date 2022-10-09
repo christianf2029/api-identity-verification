@@ -1,17 +1,18 @@
 import { AppContainer } from '../register';
+import scope from './middlewares/scope';
 import routes from './routes';
 
 export default {
   start: async (container: AppContainer): Promise<void> => {
     const express = container.resolve['express'];
-    const bodyParser = container.resolve['bodyParser'];
     const settings = container.resolve['settings'];
     const logger = container.resolve['logger'];
 
     const server = express();
 
-    server.use(bodyParser.json());
-    server.use(bodyParser.urlencoded({ extended: false }));
+    server.use(express.json());
+    server.use(express.urlencoded({ extended: false }));
+    server.use(scope(container));
 
     routes(server, container);
 

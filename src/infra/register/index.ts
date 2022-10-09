@@ -1,13 +1,13 @@
+import AWS from 'aws-sdk';
 import axios, { Axios } from 'axios';
-import bodyParser from 'body-parser';
 import express from 'express';
 import { Settings } from '../settings';
 import { Logger } from '../tools/logger';
 
 export type AppContainer = {
   resolve: {
+    aws: typeof AWS,
     axios: Axios,
-    bodyParser: typeof bodyParser,
     express: typeof express,
     logger: Logger,
     settings: Settings
@@ -18,8 +18,8 @@ export type AppContainer = {
 export default {
   load: (): AppContainer => {
     const dependencies: any = {
+      aws: AWS,
       axios: axios.create(),
-      bodyParser: bodyParser,
       express: express
     };
 

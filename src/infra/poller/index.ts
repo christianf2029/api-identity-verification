@@ -3,6 +3,7 @@ import { Consumer } from 'sqs-consumer';
 import { AppContainer } from '../register';
 import { Settings } from '../settings';
 import { Logger } from '../tools/logger';
+import routes from './routes';
 
 const validateSQSExistence = async (settings: Settings, logger: Logger) => {
   const sqsManager = new AWS.SQS({
@@ -50,8 +51,9 @@ export default {
     const poller = Consumer.create({
       region: settings.aws.region,
       queueUrl: settings.sqsPoller.queue.url,
-      handleMessage: async (message) => {
-        logger.info('SQS Message received', { message });
+      messageAttributeNames: ['Type'],
+      handleMessage: async (message: AWS.SQS.Message) => {
+        await routes(container, message);
       }
     });
 
