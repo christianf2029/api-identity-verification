@@ -37,7 +37,7 @@ export default class PaymentReceiver {
     }
 
     // TODO: implementar conferência na lista do prestador de serviço
-    // referênte às pessoas autorizadas a serem validadas
+    // referente às pessoas autorizadas a serem validadas
 
     this.logger.info('New payment received processing finished');
   }
