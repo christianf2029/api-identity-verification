@@ -129,3 +129,56 @@ paths:
                     type: string
                     enum:
                       - Cobrança não encontrada para o id informado
+
+  /webhook/pix:
+    post:
+      summary: Receive notifications of payments received.
+      description: This request receive notifications of payments received and process them.
+      tags:
+        - "Pix"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pix:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      endToEndId:
+                        type: string
+                        example: E18236120202210081849s02e0c9c307
+                      txid:
+                        type: string
+                        example: 4849ca133bf94e7184144e0bd402f5cf
+                      chave:
+                        type: string
+                        example: e39066bf-9148-4b26-a176-3fa9b092b79d
+                      valor:
+                        type: string
+                        example: 0.01
+                      horario:
+                        type: string
+                        format: date-time
+                      gnExtras:
+                        type: object
+                        properties:
+                          tarifa:
+                            type: string
+                            example: 0.01
+                          pagador:
+                            type: object
+                            properties:
+                              nome:
+                                type: string
+                                example: CHRISTIAN FELIPE ARAUJO TEIXEIRA
+                              cpf:
+                                type: string
+                                example: "***.886.456-**"
+
+      responses:
+        "204":
+          description: Payment received processed.

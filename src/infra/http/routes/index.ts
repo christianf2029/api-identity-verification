@@ -8,7 +8,7 @@ export default (server: Express, container: AppContainer) => {
   webhook(server, container);
 
   server.all('*', (req: Request, res: Response) => {
-    container.resolve['logger'].warn('New request was received');
+    container.resolve['logger'].warn('Unmapped request was received');
 
     res.status(404).json({
       error: 'not_found',

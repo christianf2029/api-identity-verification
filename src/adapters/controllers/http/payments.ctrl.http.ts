@@ -13,7 +13,7 @@ export default {
     try {
       await paymentReceiver.execute(input);
 
-      res.status(200).end();
+      res.status(204).end();
     } catch (err: any) {
       next(err);
     }
