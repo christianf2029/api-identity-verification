@@ -3,6 +3,10 @@
   "editor.tabCompletion": "on",
   "editor.autoClosingQuotes": "always",
   "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
+  },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "prettier.enable": true,
   "files.eol": "\n",

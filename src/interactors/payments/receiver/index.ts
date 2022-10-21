@@ -28,13 +28,15 @@ export default class PaymentReceiver {
     this.logger.info('New payment received', { payment });
 
     this.logger.info('Triggering full payment chargeback');
-
     await this.triggerPaymentChargeback(payment);
 
     if (!payment.extras.payerName || !payment.extras.payerDocument) {
       this.logger.error('Payer information not provided by the Pix API');
       return;
     }
+
+    const payerDocument = payment.extras.payerDocument;
+
 
     // TODO: implementar conferência na lista do prestador de serviço
     // referente às pessoas autorizadas a serem validadas
