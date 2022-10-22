@@ -1,3 +1,6 @@
+import 'source-map-support/register';
+
+import databases from './infra/databases';
 import server from './infra/http';
 import poller from './infra/poller';
 import register from './infra/register';
@@ -13,9 +16,13 @@ const main = async (): Promise<void> => {
   const stts = await settings.load();
   logger.info('Settings loaded');
 
+  const dbs = await databases.load();
+  logger.info('Databases loaded');
+
   container.add({
     logger,
-    settings: stts
+    settings: stts,
+    databases: dbs
   });
 
   await server.start(container);

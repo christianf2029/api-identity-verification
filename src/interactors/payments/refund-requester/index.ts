@@ -2,9 +2,9 @@ import { Axios } from 'axios';
 import { AppContainer } from '../../../infra/register';
 import { Settings } from '../../../infra/settings';
 import { Logger } from '../../../infra/tools/logger';
-import { DevolutionRequesterInput, DevolutionRequesterOutput } from './types';
+import { RefundRequesterInput, RefundRequesterOutput } from './types';
 
-export default class DevolutionRequester {
+export default class RefundRequester {
   private axios: Axios;
   private settings: Settings;
   private logger: Logger;
@@ -15,16 +15,16 @@ export default class DevolutionRequester {
     this.logger = params.resolve['logger'];
   }
 
-  public async execute(input: DevolutionRequesterInput): Promise<DevolutionRequesterOutput> {
+  public async execute(input: RefundRequesterInput): Promise<RefundRequesterOutput> {
     this.logger.info('Getting oauth token in the API Pix Gerencianet');
 
     const oauthToken = await this.getOAuthToken();
 
-    this.logger.info('Requesting pix devolution');
+    this.logger.info('Requesting payment full refund');
 
-    const requestedDevolution = await this.requestDevolution(oauthToken, input.endToEndId, input.value);
+    const requestedReturn = await this.requestReturn(oauthToken, input.endToEndId, input.value);
 
-    this.logger.info('Devolution requested', { requestedDevolution });
+    this.logger.info('Refund requested', { requestedReturn: requestedReturn });
   }
 
   private async getOAuthToken(): Promise<string> {
@@ -49,9 +49,9 @@ export default class DevolutionRequester {
     }
   }
 
-  private async requestDevolution(oauthToken: string, endToEndId: string, value: string) {
+  private async requestReturn(oauthToken: string, endToEndId: string, value: string) {
     try {
-      const { data: requestedDevolution } = await this.axios.request({
+      const { data: requestedReturn } = await this.axios.request({
         method: 'PUT',
         url: `${this.settings.apiPix.url}/v2/pix/${endToEndId}/devolucao/1`,
         httpsAgent: this.settings.apiPix.httpsAgent,
@@ -63,10 +63,10 @@ export default class DevolutionRequester {
         }
       });
 
-      return requestedDevolution;
+      return requestedReturn;
     } catch (err: any) {
-      this.logger.error('A unknown error occurred while requesting devolution', { errData: err.data });
-      throw new Error('API Pix requesting devolution failed');
+      this.logger.error('A unknown error occurred while requesting payment return', { errData: err.response.data });
+      throw new Error('API Pix requesting payment return failed');
     }
   }
 }

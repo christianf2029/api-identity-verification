@@ -1,4 +1,4 @@
-export type PaymentReceiverInput = {
+export type PaymentNotificationReceiverInput = {
   pix: [{
     endToEndId: string,
     txid: string,
@@ -27,6 +27,8 @@ export type PaymentReceiverInput = {
   }]
 }
 
+export type PaymentNotificationReceiverOutput = void;
+
 export type Payment = {
   endToEndId: string,
   txid: string,
@@ -34,16 +36,17 @@ export type Payment = {
   value: string,
   effectiveDate: string,
   payerInfo?: string,
-  extras: {
-    fee?: string,
-    payerName?: string,
-    payerDocument?: string
+  extras?: {
+    fee: string,
+    payerName: string,
+    payerDocument: string,
+    payerDocumentIsMasked: boolean
   },
 
-  devolutions?: Devolution[]
+  returns?: PaymentReturn[]
 }
 
-export type Devolution = {
+export type PaymentReturn = {
   id: string,
   rtrId: string,
   value: string,

@@ -1,6 +1,6 @@
 import https from 'https';
-import settings from './settings.json';
 import apiPixCredentials from './api-pix/credentials.json';
+import settings from './settings.json';
 
 export type Settings = {
   aws: {

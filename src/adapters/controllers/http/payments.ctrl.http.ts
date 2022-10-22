@@ -1,17 +1,17 @@
 import { NextFunction, Request, Response } from 'express';
 import { AppContainer } from '../../../infra/register';
-import PaymentReceiver from '../../../interactors/payments/receiver';
-import { PaymentReceiverInput } from '../../../interactors/payments/receiver/types';
+import PaymentNotificationReceiver from '../../../interactors/payments/notification-receiver';
+import { PaymentNotificationReceiverInput } from '../../../interactors/payments/notification-receiver/types';
 
 export default {
-  receivePayment: async (req: Request, res: Response, next: NextFunction) => {
+  receivePaymentNotification: async (req: Request, res: Response, next: NextFunction) => {
     const container: AppContainer = (<any>req).container;
-    const paymentReceiver = new PaymentReceiver(container);
+    const paymentNotificationReceiver = new PaymentNotificationReceiver(container);
 
-    const input: PaymentReceiverInput = req.body;
+    const input: PaymentNotificationReceiverInput = req.body;
 
     try {
-      await paymentReceiver.execute(input);
+      await paymentNotificationReceiver.execute(input);
 
       res.status(204).end();
     } catch (err: any) {

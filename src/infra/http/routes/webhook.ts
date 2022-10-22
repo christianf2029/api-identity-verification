@@ -13,6 +13,6 @@ export default (server: Express, container: AppContainer) => {
     });
 
   server.route('/webhook/pix')
-    .post(paymentsCtrlHttp.receivePayment);
+    .post(paymentsCtrlHttp.receivePaymentNotification);
 
 };

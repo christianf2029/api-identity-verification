@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-import devolutionCtrlPoller from '../../../adapters/controllers/poller/devolution.ctrl.poller';
+import refundCtrlPoller from '../../../adapters/controllers/poller/refund.ctrl.poller';
 import { AppContainer } from '../../register';
 
 export default async (container: AppContainer, message: AWS.SQS.Message) => {
@@ -20,8 +20,8 @@ export default async (container: AppContainer, message: AWS.SQS.Message) => {
   const parsedMessageBody = JSON.parse(message.Body);
 
   switch (message.MessageAttributes.Type.StringValue) {
-    case 'DEVOLUTION_REQUEST':
-      await devolutionCtrlPoller.requestDevolution(container, parsedMessageBody);
+    case 'REFUND_REQUEST':
+      await refundCtrlPoller.requestRefund(container, parsedMessageBody);
       break;
     default:
       logger.warn('Unmapped message type');

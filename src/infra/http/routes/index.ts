@@ -1,10 +1,12 @@
 import { Express, Request, Response } from 'express';
 import { AppContainer } from '../../register';
 import charges from './charges';
+import users from './users';
 import webhook from './webhook';
 
 export default (server: Express, container: AppContainer) => {
   charges(server);
+  users(server);
   webhook(server, container);
 
   server.all('*', (req: Request, res: Response) => {

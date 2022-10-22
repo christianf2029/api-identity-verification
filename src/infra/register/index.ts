@@ -1,6 +1,7 @@
 import AWS from 'aws-sdk';
 import axios, { Axios } from 'axios';
 import express from 'express';
+import { Databases } from '../databases';
 import { Settings } from '../settings';
 import { Logger } from '../tools/logger';
 
@@ -10,7 +11,8 @@ export type AppContainer = {
     axios: Axios,
     express: typeof express,
     logger: Logger,
-    settings: Settings
+    settings: Settings,
+    databases: Databases
   },
   add: (d: any) => void
 };
