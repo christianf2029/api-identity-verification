@@ -88,16 +88,21 @@ export default class UserRepository {
   public async getAll(): Promise<User[]> {
     const rawUsersById = await this.redis.hGetAll('users:id');
 
-    return Object.values(rawUsersById).map((rawUserStr) => {
-      const rawUser = JSON.parse(rawUserStr);
+    return Object
+      .values(rawUsersById)
+      .map((rawUserStr) => {
+        const rawUser = JSON.parse(rawUserStr);
 
-      return new User(
-        rawUser.id,
-        rawUser.name,
-        rawUser.document,
-        rawUser.identification as UserIdentification,
-        rawUser.registration as UserRegistration
-      );
-    });
+        return new User(
+          rawUser.id,
+          rawUser.name,
+          rawUser.document,
+          rawUser.identification as UserIdentification,
+          rawUser.registration as UserRegistration
+        );
+      })
+      .sort((user1, user2) => {
+        return user1.registration.at.localeCompare(user2.registration.at);
+      });
   }
 }

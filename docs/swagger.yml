@@ -130,6 +130,72 @@ paths:
                     enum:
                       - Cobrança não encontrada para o id informado
 
+  /users:
+    post:
+      summary: Informs the API the list of users to be validated.
+      description: This request informs the API the list of users to be validated.
+      tags:
+        - "Usuários"
+      security:
+        - OAuth2: [users]
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token to authorize the request.
+          required: true
+          schema:
+            type: string
+            example: Bearer KZKk5UpopJZVKZKj5R8QmVN1ROKqaKNyomlaliUp
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Leonardo Edson da Rocha
+                  document:
+                    type: string
+                    example: 47435855200
+      responses:
+        "201":
+          description: The users list created.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/userCreated"
+
+    get:
+      summary: Returns the user list.
+      description: This request asks the server to list the users for the identity validation process.
+      tags:
+        - "Usuários"
+      security:
+        - OAuth2: [users]
+      parameters:
+        - in: header
+          name: Authorization
+          description: Access token to authorize the request.
+          required: true
+          schema:
+            type: string
+            example: Bearer KZKk5UpopJZVKZKj5R8QmVN1ROKqaKNyomlaliUp
+      responses:
+        "201":
+          description: The current users list.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/user"
+
   /webhook/pix:
     post:
       summary: Receive notifications of payments received.
@@ -182,3 +248,96 @@ paths:
       responses:
         "204":
           description: Payment received processed.
+
+components:
+  schemas:
+    userCreated:
+      type: object
+      required:
+        - id
+        - name
+        - document
+        - identification
+        - registration
+      properties:
+        id:
+          type: string
+          example: 7ab28289-0d5f-4ad3-b8b3-fb516b3b16fa
+        name:
+          type: string
+          example: Leonardo Edson da Rocha
+        document:
+          type: string
+          example: 47435855200
+        identification:
+          type: object
+          required:
+            - status
+          properties:
+            status:
+              type: string
+              enum:
+                - awaiting
+        registration:
+          type: object
+          properties:
+            by:
+              type: string
+              enum:
+                - integrator
+                - payment_transaction
+            at:
+              type: string
+              format: date-time
+    user:
+      type: object
+      required:
+        - id
+        - name
+        - document
+        - identification
+        - registration
+      properties:
+        id:
+          type: string
+          example: 7ab28289-0d5f-4ad3-b8b3-fb516b3b16fa
+        name:
+          type: string
+          example: Leonardo Edson da Rocha
+        document:
+          type: string
+          example: 47435855200
+        identification:
+          type: object
+          required:
+            - status
+          properties:
+            status:
+              type: string
+              enum:
+                - awaiting
+                - validated
+              example: validated
+            at:
+              type: string
+              format: date-time
+            chargeId:
+              type: string
+              example: 2768480ff3514958afb37515a5d34f1e
+            endToEndId:
+              type: string
+              example: E0000000020221022163822003806444
+            returnId:
+              type: string
+              example: D09089356202210221639be8a25a2218
+        registration:
+          type: object
+          properties:
+            by:
+              type: string
+              enum:
+                - integrator
+                - payment_transaction
+            at:
+              type: string
+              format: date-time
